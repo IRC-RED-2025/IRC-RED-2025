@@ -15,6 +15,20 @@ public class Drive extends Command{
     }
     
     public void execute() {
-        drivetrain.go(Math.signum(xbox.getLeftY()) * Math.pow(xbox.getLeftY(), 2)*0.66, Math.signum(xbox.getRightY()) * Math.pow(xbox.getRightY(), 2)*0.66);
+        double lBoxY = Math.signum(xbox.getLeftY()) * Math.pow(xbox.getLeftY(), 2);
+        double lBoxX = Math.signum(xbox.getLeftX()) * Math.pow(xbox.getLeftX(), 2);
+        double rBoxY = Math.signum(xbox.getRightY()) * Math.pow(xbox.getRightY(), 2);
+        double lBoxX = Math.signum(xbox.getRightX()) * Math.pow(xbox.getRightX(), 2);
+
+        //drivetrain.go(lBoxY*0.66, lBoxX*0.66); //Marcello idea: one motor joystick X, one motor joystick Y
+        //drivetrain.go(lBoxY*0.66, rBoxY*0.66); //original one motor/one joystick
+
+        if (6 * Math.abs(xbox.getLeftX) <= Math.abs(xbox.getLeftY) { //Ethan idea
+            drivetrain.go(lBoxY, lBoxY);
+        } else if (6 * Math.abs(xbox.getLeftY) <= Math.abs(xbox.getLeftX) {
+            drivetrain.go(lBoxX, -lBoxX);
+        } else { //My idea
+            drivetrain.go((lBoxY+lBoxX)/2, (lBoxY-lBoxX)/2);
+        }
     }
 }
