@@ -27,11 +27,12 @@ public class Drive extends Command {
         double rBoxX = Math.signum(xbox.getRightX()) * Math.pow(xbox.getRightX(), 2) * -1;
 
         // Projecting the circular input map onto a square
-        double distSq = Math.sqrt(Math.pow(Math.min(1 / Math.tan(Math.atan2(lBoxX, lBoxY)), 1), 2)
-                + Math.pow(Math.min(Math.tan(Math.atan2(lBoxX, lBoxY)), 1), 2)); // https://www.desmos.com/calculator/8unnybqhh0
-                                                                                 // messy graph but it somewhat explains
-        double sqLBoxX = lBoxX * distSq;
-        double sqLBoxY = lBoxY * distSq;
+        double sqCorrection = Math.sqrt(Math.pow(Math.min(Math.tan(Math.atan2(Math.abs(lBoxX), Math.abs(lBoxY))), 1), 2)
+                + Math.pow(Math.min(1 / Math.tan(Math.atan2(Math.abs(lBoxX), Math.abs(lBoxY))), 1), 2));
+        // See https://www.desmos.com/calculator/of98m4ayna for somewhat explanation.
+        // See https://www.desmos.com/calculator/owzq8oe5vr for animation.
+        double sqLBoxX = lBoxX * sqCorrection;
+        double sqLBoxY = lBoxY * sqCorrection;
 
         // drivetrain.go(lBoxY * reduction, lBoxX * reduction); //Marcello idea: one
         // motor joystick X, one motor joystick Y
