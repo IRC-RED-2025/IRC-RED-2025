@@ -26,13 +26,13 @@ public class Drive extends Command {
         double rBoxY = Math.signum(xbox.getRightY()) * Math.pow(xbox.getRightY(), 2) * -1;
         double rBoxX = Math.signum(xbox.getRightX()) * Math.pow(xbox.getRightX(), 2) * -1;
 
-        // Projecting the circular input map onto a square
-        double sqCorrection = Math.sqrt(Math.pow(Math.min(Math.tan(Math.atan2(Math.abs(lBoxX), Math.abs(lBoxY))), 1), 2)
-                + Math.pow(Math.min(1 / Math.tan(Math.atan2(Math.abs(lBoxX), Math.abs(lBoxY))), 1), 2));
+        // Projecting the circular input map onto a square 
+        double sqCorrection = Math.sqrt(Math.pow(Math.min(Math.abs(lBoxY / lBoxX), 1), 2)
+                                      + Math.pow(Math.min(Math.abs(lBoxX / lBoxY), 1), 2));
         // See https://www.desmos.com/calculator/of98m4ayna for somewhat explanation.
         // See https://www.desmos.com/calculator/owzq8oe5vr for animation.
-        double sqLBoxX = lBoxX * sqCorrection;
-        double sqLBoxY = lBoxY * sqCorrection;
+        double sqLBoxX = Math.signum(xbox.getLeftY()) * (Math.min(Math.abs(lBoxY / lBoxX), 1) * Math.sqrt(Math.pow(lBoxY, 2) + Math.pow(lBoxX, 2)));
+        double sqLBoxY = Math.signum(xbox.getLeftY()) * (Math.min(Math.abs(lBoxX / lBoxY), 1) * Math.sqrt(Math.pow(lBoxY, 2) + Math.pow(lBoxX, 2)));
 
         // drivetrain.go(lBoxY * reduction, lBoxX * reduction); //Marcello idea: one
         // motor joystick X, one motor joystick Y
@@ -43,14 +43,12 @@ public class Drive extends Command {
             drivetrain.go(Math.signum(pD) * 0.5, Math.signum(pD) * 0.5);
         }
 
-        if (Math.atan2(lBoxY, lBoxX) >= yegg || Math.atan2(lBoxY, -lBoxX) >= yegg
-                || Math.atan2(-lBoxY, lBoxX) >= yegg || Math.atan2(-lBoxY, -lBoxX) >= yegg) { // Ethan idea
+        if (Math.atan2(Math.abs(sqLBoxY), Math.abs(sqLBoxX)) >= yegg) { // Ethan idea
 
             drivetrain.go(sqLBoxY * reduction, sqLBoxY * reduction);
             pD = sqLBoxY;
 
-        } else if (Math.atan2(lBoxY, lBoxX) >= xegg || Math.atan2(lBoxY, -lBoxX) >= xegg
-                || Math.atan2(-lBoxY, lBoxX) >= xegg || Math.atan2(-lBoxY, -lBoxX) >= xegg) {
+        } else if (Math.atan2(Math.abs(sqLBoxY), Math.abs(sqLBoxX)) <= xegg) {
 
             drivetrain.go(sqLBoxX * reduction, -sqLBoxX * reduction);
 
