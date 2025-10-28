@@ -17,7 +17,7 @@ public class Drive extends Command {
     }
 
     public void execute() {
-        double reduction = 0.66; // I don't trust my teammates
+        double reduction = 1; // I don't trust my teammates
         double yegg = Math.toRadians(90 - 15);
         double xegg = Math.toRadians(0 + 15);
 
@@ -27,20 +27,18 @@ public class Drive extends Command {
         double rBoxX = Math.signum(xbox.getRightX()) * Math.pow(xbox.getRightX(), 2) * -1;
 
         // Projecting the circular input map onto a square 
-        double sqCorrection = Math.sqrt(Math.pow(Math.min(Math.abs(lBoxY / lBoxX), 1), 2)
-                                      + Math.pow(Math.min(Math.abs(lBoxX / lBoxY), 1), 2));
         // See https://www.desmos.com/calculator/of98m4ayna for somewhat explanation.
         // See https://www.desmos.com/calculator/owzq8oe5vr for animation.
         double sqLBoxX = Math.signum(xbox.getLeftY()) * (Math.min(Math.abs(lBoxY / lBoxX), 1) * Math.sqrt(Math.pow(lBoxY, 2) + Math.pow(lBoxX, 2)));
         double sqLBoxY = Math.signum(xbox.getLeftY()) * (Math.min(Math.abs(lBoxX / lBoxY), 1) * Math.sqrt(Math.pow(lBoxY, 2) + Math.pow(lBoxX, 2)));
 
-        // drivetrain.go(lBoxY * reduction, lBoxX * reduction); //Marcello idea: one
+        // drivetrain.go(sqLBoxY * reduction, sqLBoxX * reduction); //Marcello idea: one
         // motor joystick X, one motor joystick Y
         // drivetrain.go(lBoxY * reduction, rBoxY * reduction); //original one motor/one
         // joystick
 
         if (wD == true && Math.abs(lBoxY) <= 0.01 && Math.abs(lBoxX) <= 0.01) {
-            drivetrain.go(Math.signum(pD) * 0.5, Math.signum(pD) * 0.5);
+            drivetrain.go(Math.signum(pD) * 0.5, Math.signum(pD) * 0.75);
         }
 
         if (Math.atan2(Math.abs(sqLBoxY), Math.abs(sqLBoxX)) >= yegg) { // Ethan idea
