@@ -8,12 +8,15 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Drive;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.MoveDropper;
 import frc.robot.subsystems.Subsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Dropper;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -25,8 +28,11 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Subsystem m_exampleSubsystem = new Subsystem();
   private final Drivetrain drivetrain = new Drivetrain();
+  private final Dropper dropper = new Dropper();
   private final CommandXboxController xbox = new CommandXboxController(0);
   private final Drive drive = new Drive(drivetrain, xbox);
+  private final Trigger dropperForwardButton = xbox.a();
+  private final Trigger dropperBackButton = xbox.b();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -56,6 +62,8 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     drivetrain.setDefaultCommand(drive);
+    dropperBackButton.whileTrue(new MoveDropper(dropper, 0.5));
+    dropperForwardButton.whileTrue(new MoveDropper(dropper, 0.5));
   }
 
   /**
