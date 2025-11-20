@@ -5,18 +5,18 @@ import frc.robot.subsystems.Dropper;
 
 public class MoveDropper extends Command {
     private Dropper dropper;
-    private double speed;
+    private double angle;
 
-    public MoveDropper(Dropper dropper, double speed) {
+    public MoveDropper(Dropper dropper, double angle) {
         this.dropper = dropper;
         addRequirements(dropper);
     }
 
     public void initialize() {
-        dropper.rotate(speed);
+        dropper.setGoal(angle);
     }
 
     public void end(boolean i) {
-        dropper.rotate(0);
+        dropper.setGoal(0);
     }
 }

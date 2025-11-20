@@ -1,16 +1,34 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Dropper extends SubsystemBase{
-    VictorSP motor;
+    private TalonFX falcon;
+    private PositionVoltage positionVoltage;
 
+    
     public Dropper() {
-        motor = new VictorSP(3);
+        falcon = new TalonFX(0);
+    
+         Slot0Configs config = new Slot0Configs();
+         config.kP = Constants.DropperConstants.kP;
+         config.kD = Constants.DropperConstants.kD;
+         config.kI = Constants.DropperConstants.kI;
+         falcon.getConfigurator().apply(config);
+         positionVoltage = new PositionVoltage(0).withSlot(0);
     } 
 
-    public void rotate(double speed) {
-        motor.set(speed);
+    public void setGoal(double angle){
+        falcon.setControl(positionVoltage.withPosition(angle));
     }
+    public void periodic(){
+        System.out.println(falcon.getPosition().getValueAsDouble());
+    }
+    
 }
