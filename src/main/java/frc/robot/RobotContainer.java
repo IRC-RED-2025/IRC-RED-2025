@@ -31,8 +31,9 @@ public class RobotContainer {
   private final Dropper dropper = new Dropper();
   private final CommandXboxController xbox = new CommandXboxController(0);
   private final Drive drive = new Drive(drivetrain, xbox);
-  private final Trigger dropperForwardButton = xbox.a();
-  private final Trigger dropperBackButton = xbox.b();
+  // private final Trigger dropperForwardButton = xbox.a();
+  // private final Trigger dropperBackButton = xbox.b();
+  private final Trigger drop = xbox.a();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -62,8 +63,9 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     drivetrain.setDefaultCommand(drive);
-    dropperBackButton.whileTrue(new MoveDropper(dropper, 0.5));
-    dropperForwardButton.whileTrue(new MoveDropper(dropper, 0.5));
+    // dropperBackButton.whileTrue(new MoveDropper(dropper, 0.5));
+    // dropperForwardButton.whileTrue(new MoveDropper(dropper, 0.5));
+    drop.whileTrue(new MoveDropper(dropper, 1));
   }
 
   /**
