@@ -33,7 +33,9 @@ public class RobotContainer {
   private final Drive drive = new Drive(drivetrain, xbox);
   // private final Trigger dropperForwardButton = xbox.a();
   // private final Trigger dropperBackButton = xbox.b();
-  private final Trigger drop = xbox.a();
+  private final Trigger dropDown = xbox.x();
+  private final Trigger dropUp = xbox.y();
+  private final Trigger dropBackward = xbox.b();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -65,7 +67,9 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(drive);
     // dropperBackButton.whileTrue(new MoveDropper(dropper, 0.5));
     // dropperForwardButton.whileTrue(new MoveDropper(dropper, 0.5));
-    drop.whileTrue(new MoveDropper(dropper, 1));
+    dropDown.whileTrue(new MoveDropper(dropper, 0));
+    dropUp.whileTrue(new MoveDropper(dropper, 0.5));
+    dropBackward.whileTrue(new MoveDropper(dropper, 0.75));
   }
 
   /**
