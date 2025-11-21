@@ -67,9 +67,9 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(drive);
     // dropperBackButton.whileTrue(new MoveDropper(dropper, 0.5));
     // dropperForwardButton.whileTrue(new MoveDropper(dropper, 0.5));
-    dropDown.whileTrue(new MoveDropper(dropper, 0));
-    dropUp.whileTrue(new MoveDropper(dropper, 0.5));
-    dropBackward.whileTrue(new MoveDropper(dropper, 0.75));
+    dropDown.onTrue(new MoveDropper(dropper, 0));
+    dropUp.onTrue(new MoveDropper(dropper, 0.5));
+    dropBackward.onTrue(new MoveDropper(dropper, 0.75));
   }
 
   /**
