@@ -7,8 +7,8 @@ import frc.robot.subsystems.Drivetrain;
 public class Drive extends Command {
     private Drivetrain drivetrain;
     private CommandXboxController xbox;
-    boolean wD = false; // wasDriving
-    double pD = 1; // prevDirection
+    private boolean wD = false; // wasDriving
+    private double pD = 1; // prevDirection
 
     public Drive(Drivetrain drivetrain, CommandXboxController xbox) {
         this.drivetrain = drivetrain;
