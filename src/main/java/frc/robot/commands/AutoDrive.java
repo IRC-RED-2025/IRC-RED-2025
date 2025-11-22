@@ -16,6 +16,9 @@ public class AutoDrive extends Command {
         addRequirements(drivetrain);
         this.dropper = dropper;
         addRequirements(dropper);
+        this.speed1L = speed1L;
+        this.speed1R = speed1R;
+        this.dropLoc = dropLoc;
     }
 
     public void execute() {
