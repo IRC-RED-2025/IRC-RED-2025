@@ -7,8 +7,10 @@ import frc.robot.subsystems.Drivetrain;
 public class Drive extends Command {
     private Drivetrain drivetrain;
     private CommandXboxController xbox;
-    private boolean wD = false; // wasDriving
-    private double pD = 1; // prevDirection
+    //private boolean wD = false; // wasDriving
+    //private double pD = 1; // prevDirection
+    private double topDegree = Math.toRadians(90 - 15);
+    private double bottomDegree = Math.toRadians(0 + 15);
 
     public Drive(Drivetrain drivetrain, CommandXboxController xbox) {
         this.drivetrain = drivetrain;
@@ -16,46 +18,55 @@ public class Drive extends Command {
         addRequirements(drivetrain);
     }
 
+    public double steerShift(double X, double Y) {
+        return (Math.atan2(Math.abs(Y), 
+                           Math.abs(X)) - 
+                           Math.toRadians(45)) / 
+                           Math.toRadians(45 - bottomDegree) * 
+                           Math.hypot(X, Y);
+    }
+
     public void execute() {
-        double reduction = 1; // I don't trust my teammates
-        double yegg = Math.toRadians(90 - 15);
-        double xegg = Math.toRadians(0 + 15);
 
-        double lBoxY = Math.signum(xbox.getLeftY()) * Math.pow(xbox.getLeftY(), 2) * -1;
-        double lBoxX = Math.signum(xbox.getLeftX()) * Math.pow(xbox.getLeftX(), 2) * -1;
-        double rBoxY = Math.signum(xbox.getRightY()) * Math.pow(xbox.getRightY(), 2) * -1;
-        double rBoxX = Math.signum(xbox.getRightX()) * Math.pow(xbox.getRightX(), 2) * -1;
+        double leftJoyY = Math.signum(xbox.getLeftY()) * Math.pow(xbox.getLeftY(), 2) * -1;
+        double leftJoyX = Math.signum(xbox.getLeftX()) * Math.pow(xbox.getLeftX(), 2) * -1;
+        //double rBoxY = Math.signum(xbox.getRightY()) * Math.pow(xbox.getRightY(), 2) * -1;
+        //double rBoxX = Math.signum(xbox.getRightX()) * Math.pow(xbox.getRightX(), 2) * -1;
 
-        // Projecting the circular input map onto a square 
-        // See https://www.desmos.com/calculator/of98m4ayna for somewhat explanation.
-        // See https://www.desmos.com/calculator/owzq8oe5vr for animation.
-        double sqLBoxX = Math.signum(xbox.getLeftY()) * (Math.min(Math.abs(lBoxY / lBoxX), 1) * Math.sqrt(Math.pow(lBoxY, 2) + Math.pow(lBoxX, 2)));
-        double sqLBoxY = Math.signum(xbox.getLeftY()) * (Math.min(Math.abs(lBoxX / lBoxY), 1) * Math.sqrt(Math.pow(lBoxY, 2) + Math.pow(lBoxX, 2)));
-
-        // drivetrain.go(sqLBoxY * reduction, sqLBoxX * reduction); //Marcello idea: one
+        // drivetrain.go(leftJoyY, leftJoyX); //Marcello idea: one
         // motor joystick X, one motor joystick Y
-        // drivetrain.go(lBoxY * reduction, rBoxY * reduction); //original one motor/one
+        // drivetrain.go(leftJoyY, rBoxY); //original one motor/one
         // joystick
 
-        if (wD == true && Math.abs(lBoxY) <= 0.01 && Math.abs(lBoxX) <= 0.01) {
-            drivetrain.go(Math.signum(pD) * 0.5, Math.signum(pD) * 0.75);
-        }
+        // if (wD == true && Math.abs(leftJoyY) <= 0.01 && Math.abs(leftJoyX) <= 0.01) {
+        //     drivetrain.go(Math.signum(pD) * 0.5, Math.signum(pD) * 0.75);
+        // }
 
-        if (Math.atan2(Math.abs(sqLBoxY), Math.abs(sqLBoxX)) >= yegg) { // Ethan idea
+        if (Math.atan2(Math.abs(leftJoyY), Math.abs(leftJoyX)) >= topDegree) { // Ethan idea
 
-            drivetrain.go(sqLBoxY * reduction, sqLBoxY * reduction);
-            pD = sqLBoxY;
+            drivetrain.go(leftJoyY, leftJoyY);
+            
+        } else if (Math.atan2(Math.abs(leftJoyY), Math.abs(leftJoyX)) <= bottomDegree) {
 
-        } else if (Math.atan2(Math.abs(sqLBoxY), Math.abs(sqLBoxX)) <= xegg) {
-
-            drivetrain.go(sqLBoxX * reduction, -sqLBoxX * reduction);
-
+            drivetrain.go(leftJoyX, -leftJoyX);
+            
         } else { // My idea
-            drivetrain.go((sqLBoxY + sqLBoxY) / 2, (sqLBoxY - sqLBoxX) / 2);
+            if (leftJoyX >= 0 && leftJoyY >= 0) {
+                drivetrain.go(1, steerShift(leftJoyX, leftJoyY));
+            } else if (leftJoyX >= 0 && leftJoyY < 0) {
+                drivetrain.go(steerShift(leftJoyX, leftJoyY), -1);
+            } else if (leftJoyX <= 0 && leftJoyY >= 0) {
+                drivetrain.go(steerShift(leftJoyX, leftJoyY), 1);
+            } else if (leftJoyX <= 0 && leftJoyY < 0) {
+                drivetrain.go(-1, steerShift(leftJoyX, leftJoyY));
+            }
+            //drivetrain.go(leftJoyY, (leftJoyY - leftJoyX) / 2);
         }
-
-        if (Math.abs(lBoxX) >= 0.01 || Math.abs(lBoxY) >= 0.01) {
-            wD = true;
-        }
+        System.out.println(steerShift(leftJoyX, leftJoyX));
+        //pD = leftJoyY;
+        
+        // if (Math.abs(leftJoyX) >= 0.01 || Mathx.abs(leftJoyY) >= 0.01) {
+        //     wD = true;
+        // }
     }
 }
