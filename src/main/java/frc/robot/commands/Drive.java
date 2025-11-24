@@ -29,8 +29,8 @@ public class Drive extends Command {
 
     public void execute() {
 
-        double leftJoyY = Math.signum(xbox.getLeftY()) * Math.pow(xbox.getLeftY(), 2) * -1;
-        double leftJoyX = Math.signum(xbox.getLeftX()) * Math.pow(xbox.getLeftX(), 2) * -1;
+        double leftJoyY = Math.signum(xbox.getLeftY()) * Math.pow(xbox.getLeftY(), 2);
+        double leftJoyX = Math.signum(xbox.getLeftX()) * Math.pow(xbox.getLeftX(), 2);
         //double rBoxY = Math.signum(xbox.getRightY()) * Math.pow(xbox.getRightY(), 2) * -1;
         //double rBoxX = Math.signum(xbox.getRightX()) * Math.pow(xbox.getRightX(), 2) * -1;
 
