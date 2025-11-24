@@ -42,32 +42,33 @@ public class Drive extends Command {
         // if (wD == true && Math.abs(leftJoyY) <= 0.01 && Math.abs(leftJoyX) <= 0.01) {
         //     drivetrain.go(Math.signum(pD) * 0.5, Math.signum(pD) * 0.75);
         // }
+        if (Math.hypot(leftJoyX, leftJoyY) >= 0.05) {
+            if (Math.atan2(Math.abs(leftJoyY), Math.abs(leftJoyX)) >= topDegree) { // Ethan idea
 
-        if (Math.atan2(Math.abs(leftJoyY), Math.abs(leftJoyX)) >= topDegree) { // Ethan idea
+                drivetrain.go(leftJoyY, leftJoyY);
+                
+            } else if (Math.atan2(Math.abs(leftJoyY), Math.abs(leftJoyX)) <= bottomDegree) {
 
-            drivetrain.go(leftJoyY, leftJoyY);
-            
-        } else if (Math.atan2(Math.abs(leftJoyY), Math.abs(leftJoyX)) <= bottomDegree) {
-
-            drivetrain.go(leftJoyX, -leftJoyX);
-            
-        } else { // My idea
-            if (leftJoyX >= 0 && leftJoyY >= 0) {
-                drivetrain.go(-1, steerShift(leftJoyX, leftJoyY));
-            } else if (leftJoyX >= 0 && leftJoyY < 0) {
-                drivetrain.go(steerShift(leftJoyX, leftJoyY), 1);
-            } else if (leftJoyX <= 0 && leftJoyY >= 0) {
-                drivetrain.go(steerShift(leftJoyX, leftJoyY), -1);
-            } else if (leftJoyX <= 0 && leftJoyY < 0) {
-                drivetrain.go(1, steerShift(leftJoyX, leftJoyY));
+                drivetrain.go(leftJoyX, -leftJoyX);
+                
+            } else { // My idea
+                if (leftJoyX >= 0 && leftJoyY >= 0) {
+                    drivetrain.go(-1, steerShift(leftJoyX, leftJoyY));
+                } else if (leftJoyX >= 0 && leftJoyY < 0) {
+                    drivetrain.go(steerShift(leftJoyX, leftJoyY), 1);
+                } else if (leftJoyX <= 0 && leftJoyY >= 0) {
+                    drivetrain.go(steerShift(leftJoyX, leftJoyY), -1);
+                } else if (leftJoyX <= 0 && leftJoyY < 0) {
+                    drivetrain.go(1, steerShift(leftJoyX, leftJoyY));
+                }
+                //drivetrain.go(leftJoyY, (leftJoyY - leftJoyX) / 2);
             }
-            //drivetrain.go(leftJoyY, (leftJoyY - leftJoyX) / 2);
+            System.out.println(steerShift(leftJoyX, leftJoyX));
+            //pD = leftJoyY;
+            
+            // if (Math.abs(leftJoyX) >= 0.01 || Mathx.abs(leftJoyY) >= 0.01) {
+            //     wD = true;
+            // }
         }
-        System.out.println(steerShift(leftJoyX, leftJoyX));
-        //pD = leftJoyY;
-        
-        // if (Math.abs(leftJoyX) >= 0.01 || Mathx.abs(leftJoyY) >= 0.01) {
-        //     wD = true;
-        // }
     }
 }
