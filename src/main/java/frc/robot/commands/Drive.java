@@ -53,13 +53,13 @@ public class Drive extends Command {
                 
             } else { // My idea
                 if (leftJoyX >= 0 && leftJoyY >= 0) {
-                    drivetrain.go(-1, steerShift(leftJoyX, leftJoyY));
-                } else if (leftJoyX >= 0 && leftJoyY < 0) {
                     drivetrain.go(steerShift(leftJoyX, leftJoyY), 1);
+                } else if (leftJoyX >= 0 && leftJoyY < 0) {
+                    drivetrain.go(-1, steerShift(leftJoyX, leftJoyY));
                 } else if (leftJoyX <= 0 && leftJoyY >= 0) {
-                    drivetrain.go(steerShift(leftJoyX, leftJoyY), -1);
-                } else if (leftJoyX <= 0 && leftJoyY < 0) {
                     drivetrain.go(1, steerShift(leftJoyX, leftJoyY));
+                } else if (leftJoyX <= 0 && leftJoyY < 0) {
+                    drivetrain.go(steerShift(leftJoyX, leftJoyY), -1);
                 }
                 //drivetrain.go(leftJoyY, (leftJoyY - leftJoyX) / 2);
             }
