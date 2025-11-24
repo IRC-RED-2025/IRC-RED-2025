@@ -23,7 +23,8 @@ public class Drive extends Command {
                            Math.abs(X)) - 
                            Math.toRadians(45)) / 
                            Math.toRadians(45 - bottomDegree) * 
-                           Math.hypot(X, Y) * -1; //Apparently -1 is forward so *-1 accounts for that.
+                           Math.hypot(X, Y) * 
+                           -1 * Math.signum(Y); //Apparently -1 is forward so *-1 accounts for that.
     }
 
     public void execute() {
