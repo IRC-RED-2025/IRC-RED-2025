@@ -9,7 +9,7 @@ public class Drivetrain extends SubsystemBase{
     public Drivetrain () {
         leftMotor = new VictorSP(0);
         rightMotor = new VictorSP(1);
-        //rightMotor.setInverted(true);
+        rightMotor.setInverted(true);
     } 
 
     public void go(double lspeed, double rspeed) {

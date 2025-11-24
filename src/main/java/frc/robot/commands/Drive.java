@@ -9,8 +9,8 @@ public class Drive extends Command {
     private CommandXboxController xbox;
     //private boolean wD = false; // wasDriving
     //private double pD = 1; // prevDirection
-    private double topDegree = Math.toRadians(90 - 15);
     private double bottomDegree = Math.toRadians(0 + 15);
+    private double topDegree = Math.toRadians(90) - bottomDegree;
 
     public Drive(Drivetrain drivetrain, CommandXboxController xbox) {
         this.drivetrain = drivetrain;
@@ -23,7 +23,7 @@ public class Drive extends Command {
                            Math.abs(X)) - 
                            Math.toRadians(45)) / 
                            Math.toRadians(45 - bottomDegree) * 
-                           Math.hypot(X, Y);
+                           Math.hypot(X, Y) * -1; //Apparently -1 is forward so *-1 accounts for that.
     }
 
     public void execute() {
@@ -52,13 +52,13 @@ public class Drive extends Command {
             
         } else { // My idea
             if (leftJoyX >= 0 && leftJoyY >= 0) {
-                drivetrain.go(1, steerShift(leftJoyX, leftJoyY));
-            } else if (leftJoyX >= 0 && leftJoyY < 0) {
-                drivetrain.go(steerShift(leftJoyX, leftJoyY), -1);
-            } else if (leftJoyX <= 0 && leftJoyY >= 0) {
-                drivetrain.go(steerShift(leftJoyX, leftJoyY), 1);
-            } else if (leftJoyX <= 0 && leftJoyY < 0) {
                 drivetrain.go(-1, steerShift(leftJoyX, leftJoyY));
+            } else if (leftJoyX >= 0 && leftJoyY < 0) {
+                drivetrain.go(steerShift(leftJoyX, leftJoyY), 1);
+            } else if (leftJoyX <= 0 && leftJoyY >= 0) {
+                drivetrain.go(steerShift(leftJoyX, leftJoyY), -1);
+            } else if (leftJoyX <= 0 && leftJoyY < 0) {
+                drivetrain.go(1, steerShift(leftJoyX, leftJoyY));
             }
             //drivetrain.go(leftJoyY, (leftJoyY - leftJoyX) / 2);
         }
