@@ -8,7 +8,8 @@ public class BasicAuto extends SequentialCommandGroup {
     public BasicAuto(Drivetrain drivetrain, Dropper dropper) {
         addCommands(
             //drive backward at half speed and move the bucket upwards for 1.5 seconds
-            new AutoDrive(drivetrain, dropper, -0.5, -0.5, 0.5).withTimeout(1.5)
+            new AutoDrive(drivetrain, dropper, -0.5, -0.5, 0).withTimeout(0.5),
+            new AutoDrive(drivetrain, dropper, 0, 0, 0.5).withTimeout(0.5)
         );
     }
 }

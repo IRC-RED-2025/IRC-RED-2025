@@ -50,11 +50,11 @@ public class Drive extends Command {
 
         if (Math.atan2(Math.abs(leftJoyY), Math.abs(leftJoyX)) >= topDegree) { // Ethan idea
 
-            drivetrain.go(leftJoyY * Math.hypot(leftJoyX, leftJoyY), leftJoyY * Math.hypot(leftJoyX, leftJoyY));
+            drivetrain.go(Math.signum(leftJoyY) * Math.hypot(leftJoyX, leftJoyY), Math.signum(leftJoyY) * Math.hypot(leftJoyX, leftJoyY));
 
         } else if (Math.atan2(Math.abs(leftJoyY), Math.abs(leftJoyX)) <= bottomDegree) {
 
-            drivetrain.go(leftJoyX * Math.hypot(leftJoyX, leftJoyY), -leftJoyX * Math.hypot(leftJoyX, leftJoyY));
+            drivetrain.go(Math.signum(leftJoyX) * Math.hypot(leftJoyX, leftJoyY), -1 * Math.signum(leftJoyX) * Math.hypot(leftJoyX, leftJoyY));
 
         } else { // My idea
             if (leftJoyX >= 0 && leftJoyY >= 0) {

@@ -68,8 +68,8 @@ public class RobotContainer {
     // dropperBackButton.whileTrue(new MoveDropper(dropper, 0.5));
     // dropperForwardButton.whileTrue(new MoveDropper(dropper, 0.5));
     dropDown.onTrue(new MoveDropper(dropper, 0));
-    dropUp.onTrue(new MoveDropper(dropper, 0.5));
-    dropBackward.onTrue(new MoveDropper(dropper, 0.25));
+    dropUp.onTrue(new MoveDropper(dropper, 0.25));
+    dropBackward.onTrue(new MoveDropper(dropper, 0.5));
   }
 
   /**
