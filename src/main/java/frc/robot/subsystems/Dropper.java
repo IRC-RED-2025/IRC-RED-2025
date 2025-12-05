@@ -25,6 +25,7 @@ public class Dropper extends SubsystemBase{
 
     public void setGoal(double angle){
         falcon.setControl(positionVoltage.withPosition((angle + Constants.DropperConstants.startAngle) * Constants.DropperConstants.gearRatio * Constants.DropperConstants.sprocketRatio));
+    }
     @Override
     public void periodic(){
         System.out.println(falcon.getPosition().getValueAsDouble());
