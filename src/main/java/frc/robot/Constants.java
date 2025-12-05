@@ -18,7 +18,8 @@ public final class Constants {
     public static double kD = 0.2;
     public static double kI = 0;
     public static double startAngle = -5 / 360; //From bucket vertical
-    public static double gearRatio = 16/18; //Cause of course it isn't 1:1
+    public static double sprocketRatio = 16/18; //Cause of course it isn't 1:1
+    public static double gearRatio = 49;
   }
  
   public static class OperatorConstants {
